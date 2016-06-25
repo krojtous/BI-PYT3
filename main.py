@@ -44,30 +44,21 @@ def retrieve_metadata(im2):
     print("Textová metadata: ", exif_dict2['Exif'][37510][0:])
 
     retrieved_image = Image.open(io.BytesIO(exif_dict2['Exif'][37500]))
-    retrieved_image.show()
+    retrieved_image.show("Obrazova metadata")
 
 
-option = input('Chcete obrazek editovat (e) nebo nacist metadata (n)? ')
-while option != "e" and option != "n":
-    option = input('Napiste "n" nebo "e":')
-
-if option == "e":
-    #path = input('Zadejte cestu k stereoskopickemu obrazku: ')
-    path = 'picture.JPG'
+def image_loading(path):
     while True:
         try:
-            im = Image.open( path ) #Read image
+            im = Image.open(path)  # Read image
         except FileNotFoundError:
-            print("Na zadane ceste:",path,"neexistuje obrazek. Zadejte novou cestu:")
+            print("Na zadane ceste:", path, "neexistuje obrazek. Zadejte novou cestu:")
             path = input()
         else:
             print("Obrazek:", path, "nacten.")
             break
-    im2 = split_image(im)
-    exif_bytes = add_metadata(im)
 
-    # path = input('Zadejte cestu k vyslednemu obazku: ')
-    path = 'new_file.jpg'
+def image_saving(path):
     while True:
         try:
             im2.save(path, "jpeg", exif=exif_bytes)
@@ -80,9 +71,27 @@ if option == "e":
         else:
             print("Obrazek ulozen na ceste:", path)
             break
+
+
+
+
+
+option = input('Chcete obrazek editovat (e) nebo nacist metadata (n)? ')
+while option != "e" and option != "n":
+    option = input('Napiste "n" nebo "e":')
+
+if option == "e":
+    path = input('Zadejte cestu k stereoskopickemu obrazku: ')
+    image_loading(path)
+    im2 = split_image(im)
+    exif_bytes = add_metadata(im)
+    path = input('Zadejte cestu k vyslednemu obazku: ')
+    image_saving(path)
+
 else:
-    path2 = "new_file.jpg"
-    im = Image.open(path2)
+    path = input('Zadejte cestu k obazku, z ktereho chcete nacist metadata: ')
+    image_loading(path)
+    im = Image.open(path)
     im.show()
     retrieve_metadata(im)
 
