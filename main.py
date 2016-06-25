@@ -1,2 +1,6 @@
-print ("ahoj")
-print ("ahoj")
+
+f = open('picture.JPG', 'r+')
+jpgdata = f.read()
+
+f.close()
+print(jpgdata)
