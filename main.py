@@ -10,13 +10,16 @@ def split_image(im):
 
 
 def add_metadata(im):
-    meta_text = input('Zadejte textová metadata (pokud nechcete pridavat, ponechte prazdne): ')
+    meta_text = input('Zadejte textová metadata '
+                      '(pokud nechcete pridavat, ponechte prazdne): ')
     if meta_text == "":
         print("Textova metadata nepripojena.")
     exif_dict = piexif.load(im.info["exif"])
     exif_dict['Exif'][37510] = meta_text
 
-    path = input('Zadejte cestu k obrazovym metadatum (ne vetsi nez 10 kB; pokud nechcete pridavat, ponechte prazdne): ')
+    path = input('Zadejte cestu k obrazovym metadatum '
+                 '(ne vetsi nez 10 kB; pokud nechcete pridavat,'
+                 ' ponechte prazdne): ')
     while True:
         if path == "":
             print("Obrazova metadata nepripojena.")
@@ -26,7 +29,8 @@ def add_metadata(im):
            with open(path, "rb") as imageFile:
                f = imageFile.read()
         except FileNotFoundError:
-            print("Na zadane ceste:", path, "neexistuje obrazek. Zadejte novou cestu:")
+            print("Na zadane ceste:", path, "neexistuje obrazek. "
+                                            "Zadejte novou cestu:")
             path = input()
         else:
             break
@@ -53,7 +57,8 @@ def image_loading(path):
         try:
             im = Image.open(path)  # Read image
         except Exception:
-            print("Na zadane ceste:", path, "neexistuje obrazek. Zadejte novou cestu:")
+            print("Na zadane ceste:", path, "neexistuje obrazek. "
+                                            "Zadejte novou cestu:")
             path = input()
         else:
             print("Obrazek:", path, "nacten.")
@@ -66,10 +71,12 @@ def image_saving(path, exif_bytes, im2):
         try:
             im2.save(path, "jpeg", exif=exif_bytes)
         except OSError as ex:
-            print("Behem ukladani obrazku na ceste", path, " doslo k chybe:", type(ex))
+            print("Behem ukladani obrazku na ceste", path,
+                  " doslo k chybe:", type(ex))
             sys.exit()
         except IOError:
-            print("Na zadane ceste:", path, "nelze provest zapis. Zadejte novou cestu:")
+            print("Na zadane ceste:", path, "nelze provest zapis. "
+                                            "Zadejte novou cestu:")
             path = input()
         else:
             print("Obrazek ulozen na ceste:", path)
@@ -77,8 +84,10 @@ def image_saving(path, exif_bytes, im2):
 
 
 def metadata_handling():
-    option = input('Chcete obrazek editovat (e) nebo nacist metadata (n)? ')
-    while option != "e" and option != "n":
+    option = input('Chcete obrazek editovat (e) nebo'
+                   ' nacist metadata (n)? ')
+    while (noption != "e" and
+           option != "n") :
         option = input('Napiste "n" nebo "e":')
 
     if option == "e":
@@ -91,7 +100,8 @@ def metadata_handling():
         image_saving(path, exif_bytes, im2)
 
     else:
-        path = input('Zadejte cestu k obazku, z ktereho chcete nacist metadata: ')
+        path = input('Zadejte cestu k obazku,'
+                     ' z ktereho chcete nacist metadata: ')
         im = image_loading(path)
         im.show()
         retrieve_metadata(im)
