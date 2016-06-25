@@ -2,26 +2,28 @@ from PIL import Image
 import io
 import piexif
 
-path = input('Zadej cestu k stereoskopickemu obrazku: ')
+
+def split_image(im):
+    box = (0, 0, im.size[0] // 2, im.size[1])
+    return im.crop(box)
+
+#path = input('Zadej cestu k stereoskopickemu obrazku: ')
+path = 'pictre.JPG'
+
 
 #Read image
 im = Image.open( path )
 #Display image
-#im.show()
+im.show()
+im2 = split_image(im)
+im2 = split_image(im)
 
-open_image()
-split_image()
-add_metadata()
-save_image()
-
-
+#add_metadata()
+#save_image()
 
 
-box = (0, 0, im.size[0] // 2, im.size[1])
-region = im.crop(box)
 
 
-w, h = im.size
 
 exif_dict = piexif.load(im.info["exif"])
 for v in exif_dict:
