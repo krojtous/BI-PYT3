@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 """
 Skript meta_handler.py slouží k úpravě stereoskopického obrázku, z kterého
 vyřezává levou polovinu a dále k připojení nestandardních metadat k obrázku.
@@ -7,7 +9,7 @@ také umožňuje dříve připojená data načíst a zobrazit.
 Skript nepřijímá žádné argumenty na vstupu. Běh je řízen průběžnými
 uživatelskými vstupy. Na začátku si uživatel vybere, zda chce upravovat
 obrázek nebo načíst metadata z již vytvořeného obrázku. Následně je vyzýván
-k zadávání uživatelských vastupů, kterými dále řídí běh skriptu.
+k zadávání uživatelských vstupů, kterými dále řídí běh skriptu.
 """
 from PIL import Image
 import os
@@ -89,8 +91,9 @@ def retrieve_metadata(im2):
 
 def image_loading(path):
     """
-    Funkce retrieve_metadata nacte z obrazku v argumentu im2
-    nestandardni textova a obrazova metadata a zobrazi je.
+    Funkce image_loading nacte obtazek na ceste path.
+    Pokud se obrazek nedari otevrit, je uzivatel vyzvan
+    k novemu zadani.
     """
 
     while True:
