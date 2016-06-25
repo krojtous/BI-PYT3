@@ -3,10 +3,11 @@ import io
 import piexif
 import sys
 
+
 def split_image(im):
+    """Vrací levou polovinu vstupního obrázku"""
     box = (0, 0, im.size[0] // 2, im.size[1])
     return im.crop(box)
-
 
 
 def add_metadata(im):
@@ -29,8 +30,8 @@ def add_metadata(im):
            with open(path, "rb") as imageFile:
                f = imageFile.read()
         except FileNotFoundError:
-            print("Na zadane ceste:", path, "neexistuje obrazek. "
-                                            "Zadejte novou cestu:")
+            print("Na zadane ceste:", path,
+                  "neexistuje obrazek. Zadejte novou cestu:")
             path = input()
         else:
             break
@@ -45,25 +46,25 @@ def add_metadata(im):
 
 def retrieve_metadata(im2):
     exif_dict2 = piexif.load(im2.info["exif"])
-    print("Textová metadata: ", exif_dict2['Exif'][37510][0:])
+    print("Textová metadata:",
+          exif_dict2['Exif'][37510][0:].decode("utf-8"))
 
     retrieved_image = Image.open(io.BytesIO(exif_dict2['Exif'][37500]))
-    retrieved_image.show("Obrazova metadata")
-
+    print ("Obrazova metadata zobrazena v samostatnem okne.")
+    retrieved_image.show()
 
 
 def image_loading(path):
     while True:
         try:
-            im = Image.open(path)  # Read image
+            im = Image.open(path)
         except Exception:
-            print("Na zadane ceste:", path, "neexistuje obrazek. "
-                                            "Zadejte novou cestu:")
+            print("Na zadane ceste:", path,
+                  "neexistuje obrazek. Zadejte novou cestu:")
             path = input()
         else:
             print("Obrazek:", path, "nacten.")
             return im
-
 
 
 def image_saving(path, exif_bytes, im2):
@@ -75,8 +76,8 @@ def image_saving(path, exif_bytes, im2):
                   " doslo k chybe:", type(ex))
             sys.exit()
         except IOError:
-            print("Na zadane ceste:", path, "nelze provest zapis. "
-                                            "Zadejte novou cestu:")
+            print("Na zadane ceste:", path,
+                  "nelze provest zapis. Zadejte novou cestu:")
             path = input()
         else:
             print("Obrazek ulozen na ceste:", path)
@@ -86,8 +87,8 @@ def image_saving(path, exif_bytes, im2):
 def metadata_handling():
     option = input('Chcete obrazek editovat (e) nebo'
                    ' nacist metadata (n)? ')
-    while (noption != "e" and
-           option != "n") :
+    while (option != "e"
+           and option != "n") :
         option = input('Napiste "n" nebo "e":')
 
     if option == "e":
@@ -103,26 +104,10 @@ def metadata_handling():
         path = input('Zadejte cestu k obazku,'
                      ' z ktereho chcete nacist metadata: ')
         im = image_loading(path)
-        im.show()
         retrieve_metadata(im)
 
     print("Konec")
 
+
 if __name__ == "__main__":
     metadata_handling()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
