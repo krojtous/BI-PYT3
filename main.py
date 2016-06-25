@@ -1,11 +1,21 @@
 from PIL import Image
-from PIL.ExifTags import TAGS
+import io
 import piexif
 
+path = input('Zadej cestu k stereoskopickemu obrazku: ')
+
 #Read image
-im = Image.open( 'picture.JPG' )
+im = Image.open( path )
 #Display image
 #im.show()
+
+open_image()
+split_image()
+add_metadata()
+save_image()
+
+
+
 
 box = (0, 0, im.size[0] // 2, im.size[1])
 region = im.crop(box)
@@ -30,12 +40,6 @@ with open("small.JPG", "rb") as imageFile:
   byte_image = bytearray(f)
 
 
-image_int = list(byte_image)
-print(b"abcde".decode("utf-8"))
-print(image_int)
-print(byte_image[0:1])
-#print(','.join(str(image_int)))
-
 exif_dict['Exif'][37500] = byte_image
 exif_dict['Exif'][37510] = "neco2"
 
@@ -48,7 +52,8 @@ exif_dict2 = piexif.load(im2.info["exif"])
 print ("--------------------------")
 print(exif_dict2['Exif'][37510])
 print(exif_dict2['Exif'][37500])
-#region.show()
 
+retrieved_image = Image.open(io.BytesIO(exif_dict2['Exif'][37500]))
+retrieved_image.show()
 
 
