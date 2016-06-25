@@ -1,0 +1,64 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module meta_handler</title>
+<meta charset="utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>meta_handler</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/matous/PycharmProjects/BI-PYT/meta_handler.py">/home/matous/PycharmProjects/BI-PYT/meta_handler.py</a></font></td></tr></table>
+    <p><tt>Skript&nbsp;meta_handler.py&nbsp;slouží&nbsp;k&nbsp;úpravě&nbsp;stereoskopického&nbsp;obrázku,&nbsp;z&nbsp;kterého<br>
+vyřezává&nbsp;levou&nbsp;polovinu&nbsp;a&nbsp;dále&nbsp;k&nbsp;připojení&nbsp;nestandardních&nbsp;metadat&nbsp;k&nbsp;obrázku.<br>
+Metadata&nbsp;jsou&nbsp;textová&nbsp;a&nbsp;obrazová&nbsp;a&nbsp;jsou&nbsp;připojována&nbsp;do&nbsp;formátu&nbsp;exif.Skript<br>
+také&nbsp;umožňuje&nbsp;dříve&nbsp;připojená&nbsp;data&nbsp;načíst&nbsp;a&nbsp;zobrazit.<br>
+&nbsp;<br>
+Skript&nbsp;nepřijímá&nbsp;žádné&nbsp;argumenty&nbsp;na&nbsp;vstupu.&nbsp;Běh&nbsp;je&nbsp;řízen&nbsp;průběžnými<br>
+uživatelskými&nbsp;vstupy.&nbsp;Na&nbsp;začátku&nbsp;si&nbsp;uživatel&nbsp;vybere,&nbsp;zda&nbsp;chce&nbsp;upravovat<br>
+obrázek&nbsp;nebo&nbsp;načíst&nbsp;metadata&nbsp;z&nbsp;již&nbsp;vytvořeného&nbsp;obrázku.&nbsp;Následně&nbsp;je&nbsp;vyzýván<br>
+k&nbsp;zadávání&nbsp;uživatelských&nbsp;vstupů,&nbsp;kterými&nbsp;dále&nbsp;řídí&nbsp;běh&nbsp;skriptu.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="PIL.Image.html">PIL.Image</a><br>
+<a href="io.html">io</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+<a href="piexif.html">piexif</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-add_metadata"><strong>add_metadata</strong></a>(im)</dt><dd><tt>Funkce&nbsp;add_metadata&nbsp;vrací&nbsp;exif&nbsp;vstupniho&nbsp;obrazku&nbsp;im&nbsp;obohaceného&nbsp;o<br>
+textová&nbsp;a&nbsp;obrazová&nbsp;metadata&nbsp;v&nbsp;bytové&nbsp;podobě.&nbsp;Na&nbsp;uživatelském&nbsp;vstupu<br>
+jsou&nbsp;očekávány&nbsp;text&nbsp;a&nbsp;cesta&nbsp;k&nbsp;obrázku&nbsp;k&nbsp;připojení.&nbsp;Pokud&nbsp;cesta&nbsp;neexistuje<br>
+neboje&nbsp;obrazek&nbsp;příliš&nbsp;velký,&nbsp;je&nbsp;uživatel&nbsp;vyzván&nbsp;k&nbsp;opětovnému&nbsp;zadání.<br>
+&nbsp;<br>
+Textová&nbsp;data&nbsp;jsou&nbsp;ukládána&nbsp;do&nbsp;exifu&nbsp;pod&nbsp;klíčem&nbsp;37510&nbsp;a&nbsp;obrazová<br>
+pod&nbsp;kódem&nbsp;37500.</tt></dd></dl>
+ <dl><dt><a name="-image_loading"><strong>image_loading</strong></a>(path)</dt><dd><tt>Funkce&nbsp;image_loading&nbsp;nacte&nbsp;obtazek&nbsp;na&nbsp;ceste&nbsp;path.<br>
+Pokud&nbsp;se&nbsp;obrazek&nbsp;nedari&nbsp;otevrit,&nbsp;je&nbsp;uzivatel&nbsp;vyzvan<br>
+k&nbsp;novemu&nbsp;zadani.</tt></dd></dl>
+ <dl><dt><a name="-image_saving"><strong>image_saving</strong></a>(path, exif_bytes, im2)</dt><dd><tt>Funkce&nbsp;image_saving&nbsp;připojí&nbsp;exif&nbsp;v&nbsp;bytove&nbsp;podobě&nbsp;(exif_bytes)<br>
+k&nbsp;obrazku&nbsp;(im2)&nbsp;a&nbsp;ulozi&nbsp;ho&nbsp;na&nbsp;zadanou&nbsp;cestu&nbsp;(path).&nbsp;Pokud<br>
+pri&nbsp;ukladani&nbsp;dojde&nbsp;k&nbsp;vyjimce&nbsp;IOError&nbsp;(například&nbsp;soubor&nbsp;existuje<br>
+a&nbsp;nelze&nbsp;přepsat)&nbsp;je&nbsp;uživatel&nbsp;vyzván&nbsp;k&nbsp;novému&nbsp;vstupu.</tt></dd></dl>
+ <dl><dt><a name="-metadata_handling"><strong>metadata_handling</strong></a>()</dt><dd><tt>Funkce&nbsp;metadata_handling&nbsp;je&nbsp;hlavní&nbsp;funkcí&nbsp;skriptu.&nbsp;Uživatel<br>
+si&nbsp;na&nbsp;začátku&nbsp;zvolí,&nbsp;zda&nbsp;chce&nbsp;editovat&nbsp;obrázek&nbsp;(vyříznou&nbsp;polovinu)<br>
+a&nbsp;připojovat&nbsp;metadata&nbsp;nebo&nbsp;metadata&nbsp;neopak&nbsp;načítat.&nbsp;Následně&nbsp;je<br>
+vyzván&nbsp;k&nbsp;zadání&nbsp;dalších&nbsp;informací,&nbsp;na&nbsp;jejichž&nbsp;základě&nbsp;je&nbsp;řízen<br>
+běh&nbsp;programu.</tt></dd></dl>
+ <dl><dt><a name="-retrieve_metadata"><strong>retrieve_metadata</strong></a>(im2)</dt><dd><tt>Funkce&nbsp;retrieve_metadata&nbsp;nacte&nbsp;z&nbsp;obrazku&nbsp;v&nbsp;argumentu&nbsp;im2<br>
+nestandardni&nbsp;textova&nbsp;a&nbsp;obrazova&nbsp;metadata&nbsp;a&nbsp;zobrazi&nbsp;je.</tt></dd></dl>
+ <dl><dt><a name="-split_image"><strong>split_image</strong></a>(im)</dt><dd><tt>Funkce&nbsp;split_image&nbsp;vrací&nbsp;levou&nbsp;polovinu&nbsp;vstupního&nbsp;obrázku&nbsp;im.</tt></dd></dl>
+</td></tr></table>
+</body></html>
