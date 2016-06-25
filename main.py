@@ -8,11 +8,11 @@ def split_image(im):
     return im.crop(box)
 
 
+
 def add_metadata(im):
     meta_text = input('Zadejte textová metadata (pokud nechcete pridavat, ponechte prazdne): ')
     if meta_text == "":
         print("Textova metadata nepripojena.")
-    #meta_text = 'Toto je zkusebni meta text.'
     exif_dict = piexif.load(im.info["exif"])
     exif_dict['Exif'][37510] = meta_text
 
@@ -47,18 +47,21 @@ def retrieve_metadata(im2):
     retrieved_image.show("Obrazova metadata")
 
 
+
 def image_loading(path):
     while True:
         try:
             im = Image.open(path)  # Read image
-        except FileNotFoundError:
+        except Exception:
             print("Na zadane ceste:", path, "neexistuje obrazek. Zadejte novou cestu:")
             path = input()
         else:
             print("Obrazek:", path, "nacten.")
-            break
+            return im
 
-def image_saving(path):
+
+
+def image_saving(path, exif_bytes, im2):
     while True:
         try:
             im2.save(path, "jpeg", exif=exif_bytes)
@@ -73,27 +76,30 @@ def image_saving(path):
             break
 
 
+def metadata_handling():
+    option = input('Chcete obrazek editovat (e) nebo nacist metadata (n)? ')
+    while option != "e" and option != "n":
+        option = input('Napiste "n" nebo "e":')
 
+    if option == "e":
+        path = input('Zadejte cestu k stereoskopickemu obrazku: ')
+        im = image_loading(path)
+        im2 = split_image(im)
+        print("Obrazek oriznut na polovinu.")
+        exif_bytes = add_metadata(im)
+        path = input('Zadejte cestu k vyslednemu obazku: ')
+        image_saving(path, exif_bytes, im2)
 
+    else:
+        path = input('Zadejte cestu k obazku, z ktereho chcete nacist metadata: ')
+        im = image_loading(path)
+        im.show()
+        retrieve_metadata(im)
 
-option = input('Chcete obrazek editovat (e) nebo nacist metadata (n)? ')
-while option != "e" and option != "n":
-    option = input('Napiste "n" nebo "e":')
+    print("Konec")
 
-if option == "e":
-    path = input('Zadejte cestu k stereoskopickemu obrazku: ')
-    image_loading(path)
-    im2 = split_image(im)
-    exif_bytes = add_metadata(im)
-    path = input('Zadejte cestu k vyslednemu obazku: ')
-    image_saving(path)
-
-else:
-    path = input('Zadejte cestu k obazku, z ktereho chcete nacist metadata: ')
-    image_loading(path)
-    im = Image.open(path)
-    im.show()
-    retrieve_metadata(im)
+if __name__ == "__main__":
+    metadata_handling()
 
 
 
