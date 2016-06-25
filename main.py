@@ -1,6 +1,5 @@
-
-f = open('picture.JPG', 'r+')
-jpgdata = f.read()
-
-f.close()
-print(jpgdata)
+from PIL import Image, ImageFilter
+#Read image
+im = Image.open( 'picture.JPG' )
+#Display image
+im.show()
