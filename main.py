@@ -9,16 +9,29 @@ def split_image(im):
 
 
 def add_metadata(im):
-    # meta_text = input('Zadejte textová metadata (pokud nechcete pridavat, ponechte prazdne): ')
-    meta_text = 'Toto je zkusebni meta text.'
+    meta_text = input('Zadejte textová metadata (pokud nechcete pridavat, ponechte prazdne): ')
+    if meta_text == "":
+        print("Textova metadata nepripojena.")
+    #meta_text = 'Toto je zkusebni meta text.'
     exif_dict = piexif.load(im.info["exif"])
     exif_dict['Exif'][37510] = meta_text
 
-    # path = input('Zadejte cestu k obrazovym metadatum (ne vetsi nez 10 kB;pokud nechcete pridavat, ponechte prazdne): ')
-    with open("small.JPG", "rb") as imageFile:
-        f = imageFile.read()
-        byte_image = bytearray(f)
+    path = input('Zadejte cestu k obrazovym metadatum (ne vetsi nez 10 kB;pokud nechcete pridavat, ponechte prazdne): ')
+    while True:
+        if path == "":
+            print("Obrazova metadata nepripojena.")
+            exif_bytes = piexif.dump(exif_dict)
+            return exif_bytes
+        try:
+           with open(path, "rb") as imageFile:
+               f = imageFile.read()
+        except FileNotFoundError:
+            print("Na zadane ceste:", path, "neexistuje obrazek. Zadejte novou cestu:")
+            path = input()
+        else:
+            break
 
+    byte_image = bytearray(f)
     exif_dict['Exif'][37500] = byte_image
 
     exif_bytes = piexif.dump(exif_dict)
@@ -39,8 +52,8 @@ while option != "e" and option != "n":
     option = input('Napiste "n" nebo "e":')
 
 if option == "e":
-    #path = input('Zadej cestu k stereoskopickemu obrazku: ')
-    path = 'picture2.JPG'
+    #path = input('Zadejte cestu k stereoskopickemu obrazku: ')
+    path = 'picture.JPG'
     while True:
         try:
             im = Image.open( path ) #Read image
@@ -48,7 +61,7 @@ if option == "e":
             print("Na zadane ceste:",path,"neexistuje obrazek. Zadejte novou cestu:")
             path = input()
         else:
-            print("Obrazek:", path, " nacten.")
+            print("Obrazek:", path, "nacten.")
             break
     im2 = split_image(im)
     exif_bytes = add_metadata(im)
