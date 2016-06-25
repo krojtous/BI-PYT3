@@ -25,12 +25,19 @@ print ("--------------------------")
 for v in exif_dict:
     print(v)
 
-with open("picture.JPG", "rb") as imageFile:
+with open("small.JPG", "rb") as imageFile:
   f = imageFile.read()
   byte_image = bytearray(f)
 
-exif_dict['Exif'][37500] = b'a'
-exif_dict['Exif'][37510] = "neco"
+
+image_int = list(byte_image)
+print(b"abcde".decode("utf-8"))
+print(image_int)
+print(byte_image[0:1])
+#print(','.join(str(image_int)))
+
+exif_dict['Exif'][37500] = byte_image
+exif_dict['Exif'][37510] = "neco2"
 
 exif_bytes = piexif.dump(exif_dict)
 im.save("new_file.jpg", "jpeg", exif=exif_bytes)
@@ -45,4 +52,3 @@ print(exif_dict2['Exif'][37500])
 
 
 
-image_int = list(byte_image)
