@@ -19,15 +19,17 @@ for v in exif_dict:
 
 print ("--------------------------")
 
-exif_dict["meta_text"] = "new value"
+exif_dict['Exif'][37510] = "new value!"
 
 for v in exif_dict:
     print(v)
-    #for k in exif_dict[v]:
-     #   print(k, ':', exif_dict[v][k])
-
 
 exif_bytes = piexif.dump(exif_dict)
 im.save("new_file.jpg", "jpeg", exif=exif_bytes)
 
+im2 = Image.open( 'new_file.jpg' )
+exif_dict2 = piexif.load(im2.info["exif"])
+
+print ("--------------------------")
+print(exif_dict2['Exif'][37510])
 #region.show()
