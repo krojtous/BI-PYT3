@@ -1,3 +1,14 @@
+"""
+Skript meta_handler.py slouží k úpravě stereoskopického obrázku, z kterého
+vyřezává levou polovinu a dále k připojení nestandardních metadat k obrázku.
+Metadata jsou textová a obrazová a jsou připojována do formátu exif.Skript
+také umožňuje dříve připojená data načíst a zobrazit.
+
+Skript nepřijímá žádné argumenty na vstupu. Běh je řízen průběžnými
+uživatelskými vstupy. Na začátku si uživatel vybere, zda chce upravovat
+obrázek nebo načíst metadata z již vytvořeného obrázku. Následně je vyzýván
+k zadávání uživatelských vastupů, kterými dále řídí běh skriptu.
+"""
 from PIL import Image
 import os
 import io
@@ -7,7 +18,7 @@ import sys
 
 def split_image(im):
     """
-    Funkce split_image crací levou polovinu vstupního obrázku im.
+    Funkce split_image vrací levou polovinu vstupního obrázku im.
     """
 
     box = (0, 0, im.size[0] // 2, im.size[1])
@@ -126,6 +137,7 @@ def metadata_handling():
     vyzván k zadání dalších informací, na jejichž základě je řízen
     běh programu.
     """
+
     option = input('Chcete obrazek editovat (e) nebo'
                    ' nacist metadata (n)? ')
     while (option != "e"
@@ -140,7 +152,6 @@ def metadata_handling():
         exif_bytes = add_metadata(im)
         path = input('Zadejte cestu k vyslednemu obazku: ')
         image_saving(path, exif_bytes, im2)
-
     else:
         path = input('Zadejte cestu k obazku,'
                      ' z ktereho chcete nacist metadata: ')
