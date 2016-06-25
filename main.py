@@ -1,11 +1,14 @@
 from PIL import Image
+import os
 import io
 import piexif
 import sys
 
 
 def split_image(im):
-    """Vrací levou polovinu vstupního obrázku"""
+    """
+    Funkce split_imaVrací levou polovinu vstupního obrázku.
+    """
     box = (0, 0, im.size[0] // 2, im.size[1])
     return im.crop(box)
 
@@ -19,8 +22,7 @@ def add_metadata(im):
     exif_dict['Exif'][37510] = meta_text
 
     path = input('Zadejte cestu k obrazovym metadatum '
-                 '(ne vetsi nez 10 kB; pokud nechcete pridavat,'
-                 ' ponechte prazdne): ')
+                 '(pokud nechcete pridavat, ponechte prazdne): ')
     while True:
         if path == "":
             print("Obrazova metadata nepripojena.")
@@ -34,14 +36,18 @@ def add_metadata(im):
                   "neexistuje obrazek. Zadejte novou cestu:")
             path = input()
         else:
-            break
+            if os.stat(path).st_size > 56000:
+                print("Obrazek na ceste:", path,
+                      "je prilis velky. Zadejte novou cestu:")
+                path = input()
+            else:
+                break
 
     byte_image = bytearray(f)
     exif_dict['Exif'][37500] = byte_image
 
     exif_bytes = piexif.dump(exif_dict)
     return exif_bytes
-
 
 
 def retrieve_metadata(im2):
