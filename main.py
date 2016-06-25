@@ -1,7 +1,7 @@
 from PIL import Image
 import io
 import piexif
-
+import sys
 
 def split_image(im):
     box = (0, 0, im.size[0] // 2, im.size[1])
@@ -16,7 +16,7 @@ def add_metadata(im):
     exif_dict = piexif.load(im.info["exif"])
     exif_dict['Exif'][37510] = meta_text
 
-    path = input('Zadejte cestu k obrazovym metadatum (ne vetsi nez 10 kB;pokud nechcete pridavat, ponechte prazdne): ')
+    path = input('Zadejte cestu k obrazovym metadatum (ne vetsi nez 10 kB; pokud nechcete pridavat, ponechte prazdne): ')
     while True:
         if path == "":
             print("Obrazova metadata nepripojena.")
@@ -65,7 +65,21 @@ if option == "e":
             break
     im2 = split_image(im)
     exif_bytes = add_metadata(im)
-    im2.save("new_file.jpg", "jpeg", exif=exif_bytes)
+
+    # path = input('Zadejte cestu k vyslednemu obazku: ')
+    path = 'new_file.jpg'
+    while True:
+        try:
+            im2.save(path, "jpeg", exif=exif_bytes)
+        except OSError as ex:
+            print("Behem ukladani obrazku na ceste", path, " doslo k chybe:", type(ex))
+            sys.exit()
+        except IOError:
+            print("Na zadane ceste:", path, "nelze provest zapis. Zadejte novou cestu:")
+            path = input()
+        else:
+            print("Obrazek ulozen na ceste:", path)
+            break
 else:
     path2 = "new_file.jpg"
     im = Image.open(path2)
